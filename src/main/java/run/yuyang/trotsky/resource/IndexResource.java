@@ -28,12 +28,12 @@ public class IndexResource {
                 .onItem().transform(b -> b.toString("UTF-8"));
     }
 
-    @GET
-    @Path("/favicon.ico")
-    @Produces("image/webp")
-    public Buffer favicon() {
-        return vertx.fileSystem().readFileBlocking("META-INF/resources/img/logo.jpg");
-    }
+//    @GET
+//    @Path("/favicon.ico")
+//    @Produces("image/webp")
+//    public Buffer favicon() {
+//        return vertx.fileSystem().readFileBlocking("META-INF/resources/img/logo.jpg");
+//    }
 
     @GET
     @Path("/{md:.*md$}")

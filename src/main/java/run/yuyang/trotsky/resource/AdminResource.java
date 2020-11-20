@@ -2,6 +2,7 @@ package run.yuyang.trotsky.resource;
 
 import io.smallrye.mutiny.Uni;
 import io.vertx.mutiny.core.Vertx;
+import run.yuyang.trotsky.commom.utils.ResUtils;
 import run.yuyang.trotsky.model.request.LoginParam;
 import run.yuyang.trotsky.service.ConfService;
 
@@ -45,9 +46,9 @@ public class AdminResource {
             String uuid = UUID.randomUUID().toString();
             NewCookie cookie = new NewCookie("uuid", uuid);
             confService.setUUID(uuid);
-            return Response.ok("{\"msg\":\"success\"}").cookie(cookie).build();
+            return Response.ok(ResUtils.success).cookie(cookie).build();
         } else {
-            return Response.serverError().build();
+            return ResUtils.failure();
         }
     }
 

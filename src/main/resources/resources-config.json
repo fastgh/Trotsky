@@ -20,6 +20,9 @@
     },
     {
       "pattern": ".*logo.jpg$"
+    },
+    {
+      "pattern": ".*note.json$"
     }
   ]
 }

@@ -1,7 +1,9 @@
 package run.yuyang.trotsky.service;
 
+import io.smallrye.mutiny.Uni;
 import io.vertx.core.Vertx;
 import io.vertx.core.buffer.Buffer;
+import run.yuyang.trotsky.model.conf.NoteConf;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
@@ -9,6 +11,9 @@ import java.io.File;
 
 @ApplicationScoped
 public class FileService {
+
+    @Inject
+    ConfService confService;
 
     @Inject
     Vertx vertx;
@@ -61,17 +66,35 @@ public class FileService {
         return true;
     }
 
-    public void saveNewFile(String path, String text) {
+    public void saveNewFile(String path, String text, NoteConf noteConf) {
         vertx.fileSystem().createFile(path, res -> {
-            if (res.succeeded()){
+            if (res.succeeded()) {
                 vertx.fileSystem().writeFile(path, Buffer.buffer(text), respose -> {
-                    if (respose.succeeded()){
+                    if (respose.succeeded()) {
+                        confService.addNoteConfAndSave(noteConf);
                     }
                 });
-            }else {
+            } else {
                 System.out.println(res.cause());
             }
         });
+    }
+
+    public void delFile(String path, String name) {
+        vertx.fileSystem().delete(confService.getWorkerPath() + "/" + path, res -> {
+            if (res.succeeded()) {
+                confService.delNoteConfAndSave(name);
+            }
+        });
+    }
+
+    public boolean existFile(String path) {
+        return vertx.fileSystem().existsBlocking(confService.getWorkerPath() + path);
+    }
+
+
+    public String getFileSync(String file) {
+        return vertx.fileSystem().readFileBlocking(confService.getWorkerPath() + "/" + file).toString();
     }
 
 }
