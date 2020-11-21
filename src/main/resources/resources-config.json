@@ -11,6 +11,15 @@
     },
     {
       "pattern": ".*.jpg$"
+    },
+    {
+      "pattern": ".*.js$"
+    },
+    {
+      "pattern": ".*.css$"
+    },
+    {
+      "pattern": ".*.ttf$"
     }
   ]
 }

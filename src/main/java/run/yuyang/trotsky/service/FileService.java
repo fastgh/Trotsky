@@ -37,10 +37,20 @@ public class FileService {
 
     public boolean copyStaticFile(String path) {
         String[] files = new String[]{
-                "index.html", "README.md", "_coverpage.md", "notes.md", ".trotsky/user.json", ".trotsky/index.json", ".trotsky/note.json", ".trotsky/count.json", "img/logo.jpg"
+                "index.html", "README.md", "_coverpage.md", "notes.md",
+                ".trotsky/user.json", ".trotsky/index.json", ".trotsky/note.json", ".trotsky/count.json",
+                "img/avatar.jpg",
+                "js/docsify.min.js",
+                "css/vue.css", "css/index.css",
+                "webfonts/JetBrainsMono-Regular.ttf",
+                "notes/被背叛的革命.md",
+                "notes/被背叛的革命/导言-本书的目的.md",
+                "notes/被背叛的革命/第一章-已经成就了什么.md",
+                "notes/论苏俄革命与国际形势的四篇报导/与美国联合通信社的代表谈话.md",
+                "notes/论苏俄革命与国际形势的四篇报导/答纽约泰晤士报编辑部的问题.md"
         };
         String[] dirs = new String[]{
-                "img", ".trotsky", "notes"
+                "img", ".trotsky", "notes", "js", "css", "webfonts", "notes", "notes/被背叛的革命", "notes/论苏俄革命与国际形势的四篇报导"
         };
         for (String dir : dirs) {
             File file = new File(path + "/" + dir);
@@ -55,7 +65,6 @@ public class FileService {
         for (String fileName : files) {
             File file = new File(path + "/" + fileName);
             if (!file.exists()) {
-                System.out.println("创建✅ " + file.getAbsolutePath());
                 vertx.fileSystem()
                         .copyBlocking("static/" + fileName, path + "/" + fileName);
             } else {
@@ -91,7 +100,6 @@ public class FileService {
     public boolean existFile(String path) {
         return vertx.fileSystem().existsBlocking(confService.getWorkerPath() + path);
     }
-
 
     public String getFileSync(String file) {
         return vertx.fileSystem().readFileBlocking(confService.getWorkerPath() + "/" + file).toString();

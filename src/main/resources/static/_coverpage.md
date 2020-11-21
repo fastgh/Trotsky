@@ -1,4 +1,4 @@
-<p align="center"> <img width="150" height="150" src="https://i.loli.net/2020/11/16/WbE3KQXihGpOt6d.jpg"/> </p>
+<p align="center"> <img width="150" height="150" src="./img/avatar.jpg"/> </p>
 
 **布尔什维克 & 第四国际精神领袖**
 
