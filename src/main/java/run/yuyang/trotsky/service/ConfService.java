@@ -7,6 +7,7 @@ import io.vertx.core.json.JsonObject;
 import lombok.Getter;
 import lombok.Setter;
 import org.eclipse.microprofile.config.inject.ConfigProperty;
+import run.yuyang.trotsky.model.conf.CountConf;
 import run.yuyang.trotsky.model.conf.IndexConf;
 import run.yuyang.trotsky.model.conf.NoteConf;
 import run.yuyang.trotsky.model.conf.UserConf;
@@ -37,6 +38,8 @@ public class ConfService {
 
     private Map<String, NoteConf> noteConfs;
 
+    private CountConf countConf;
+
     private String workerPath;
 
     private String UUID;
@@ -56,6 +59,8 @@ public class ConfService {
             }
 
         });
+        object = vertx.fileSystem().readFileBlocking(path + "/.trotsky/count.json").toJsonObject();
+        countConf = object.mapTo(CountConf.class);
     }
 
     public void saveUserConf() {

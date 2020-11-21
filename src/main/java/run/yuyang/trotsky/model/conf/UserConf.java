@@ -13,5 +13,8 @@ public class UserConf {
 
     private String password;
 
+    private String nickName;
+
+    private String buildTime;
 
 }

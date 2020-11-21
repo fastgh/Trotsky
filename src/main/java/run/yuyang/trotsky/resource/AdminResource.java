@@ -2,8 +2,10 @@ package run.yuyang.trotsky.resource;
 
 import io.smallrye.mutiny.Uni;
 import io.vertx.mutiny.core.Vertx;
+import run.yuyang.trotsky.commom.utils.DateUtils;
 import run.yuyang.trotsky.commom.utils.ResUtils;
 import run.yuyang.trotsky.model.request.LoginParam;
+import run.yuyang.trotsky.model.response.HomeInfo;
 import run.yuyang.trotsky.service.ConfService;
 
 import javax.inject.Inject;
@@ -11,6 +13,9 @@ import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.NewCookie;
 import javax.ws.rs.core.Response;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.UUID;
 
 /**
@@ -50,6 +55,20 @@ public class AdminResource {
         } else {
             return ResUtils.failure();
         }
+    }
+
+    @GET
+    @Path("/info")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response nickName() throws ParseException {
+        HomeInfo info = new HomeInfo();
+        info.setNickName(confService.getUserConf().getNickName());
+        info.setNoteCount(confService.getCountConf().getNoteCount());
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+        Date buildTime = format.parse(confService.getUserConf().getBuildTime());
+        info.setDay(DateUtils.differentDays(buildTime,new Date()));
+        return ResUtils.success(info);
     }
 
 }

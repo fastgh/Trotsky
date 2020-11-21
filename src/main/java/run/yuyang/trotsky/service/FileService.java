@@ -37,7 +37,7 @@ public class FileService {
 
     public boolean copyStaticFile(String path) {
         String[] files = new String[]{
-                "index.html", "README.md", "_coverpage.md", "notes.md", ".trotsky/user.json", ".trotsky/index.json", ".trotsky/note.json", "img/logo.jpg"
+                "index.html", "README.md", "_coverpage.md", "notes.md", ".trotsky/user.json", ".trotsky/index.json", ".trotsky/note.json", ".trotsky/count.json", "img/logo.jpg"
         };
         String[] dirs = new String[]{
                 "img", ".trotsky", "notes"

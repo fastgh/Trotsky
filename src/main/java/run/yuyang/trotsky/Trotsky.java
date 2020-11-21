@@ -38,7 +38,7 @@ public class Trotsky implements QuarkusApplication {
     @ConfigProperty(name = "trotsky.version", defaultValue = "unkown")
     private String version;
 
-    @ConfigProperty(name = "quarkus.http.port", defaultValue = "8080")
+    @ConfigProperty(name = "quarkus.http.port", defaultValue = "1917")
     private String port;
 
     @Override
