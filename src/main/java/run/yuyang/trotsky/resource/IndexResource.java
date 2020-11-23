@@ -2,21 +2,16 @@ package run.yuyang.trotsky.resource;
 
 import io.smallrye.mutiny.Uni;
 import io.vertx.mutiny.core.Vertx;
-import io.vertx.mutiny.core.buffer.Buffer;
-import run.yuyang.trotsky.commom.utils.ResUtils;
 import run.yuyang.trotsky.service.ConfService;
 
-import javax.imageio.ImageIO;
 import javax.inject.Inject;
-import javax.ws.rs.*;
+import javax.ws.rs.GET;
+import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import javax.ws.rs.core.StreamingOutput;
-import java.awt.*;
-import java.awt.image.BufferedImage;
 import java.io.File;
-import java.io.IOException;
-import java.io.OutputStream;
 
 /**
  * @author YuYang

@@ -12,6 +12,9 @@ import run.yuyang.trotsky.service.InitService;
 import javax.inject.Inject;
 
 
+/**
+ * @author YuYang
+ */
 @QuarkusMain
 public class Trotsky implements QuarkusApplication {
 
@@ -35,7 +38,7 @@ public class Trotsky implements QuarkusApplication {
     @Inject
     FileService fileService;
 
-    @ConfigProperty(name = "trotsky.version", defaultValue = "unkown")
+    @ConfigProperty(name = "trotsky.version", defaultValue = "unknown")
     private String version;
 
     @ConfigProperty(name = "quarkus.http.port", defaultValue = "1917")
@@ -83,7 +86,6 @@ public class Trotsky implements QuarkusApplication {
                 return help();
         }
     }
-
 
     public int help() {
         System.out.println("例子：trotsky <init|serve> <path>");

@@ -1,6 +1,5 @@
 package run.yuyang.trotsky.service;
 
-import io.smallrye.mutiny.Uni;
 import io.vertx.core.Vertx;
 import io.vertx.core.buffer.Buffer;
 import run.yuyang.trotsky.model.conf.NoteConf;
@@ -19,7 +18,7 @@ public class FileService {
     Vertx vertx;
 
     public String getRelPath(String path) {
-        if (null == path || path.equals("") || path.equals(".")) {
+        if (null == path || "".equals(path) || ".".equals(path)) {
             return new File("").getAbsolutePath();
         } else {
             File file = new File(path);
@@ -38,7 +37,7 @@ public class FileService {
     public boolean copyStaticFile(String path) {
         String[] files = new String[]{
                 "index.html", "README.md", "_coverpage.md", "notes.md",
-                ".trotsky/user.json", ".trotsky/index.json", ".trotsky/note.json", ".trotsky/count.json",
+                ".trotsky/user.json", ".trotsky/index.json", ".trotsky/note.json", ".trotsky/count.json", ".trotsky/dir.json",
                 "img/avatar.jpg",
                 "js/docsify.min.js",
                 "css/vue.css", "css/index.css",

@@ -1,6 +1,5 @@
 package run.yuyang.trotsky.service;
 
-import org.eclipse.microprofile.config.inject.ConfigProperty;
 import run.yuyang.trotsky.commom.exception.TrotskyException;
 import run.yuyang.trotsky.model.conf.UserConf;
 
@@ -9,7 +8,6 @@ import javax.inject.Inject;
 import java.io.Console;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.Scanner;
 
 @ApplicationScoped
 public class InitService {

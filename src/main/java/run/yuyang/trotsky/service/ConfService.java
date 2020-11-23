@@ -7,10 +7,7 @@ import io.vertx.core.json.JsonObject;
 import lombok.Getter;
 import lombok.Setter;
 import org.eclipse.microprofile.config.inject.ConfigProperty;
-import run.yuyang.trotsky.model.conf.CountConf;
-import run.yuyang.trotsky.model.conf.IndexConf;
-import run.yuyang.trotsky.model.conf.NoteConf;
-import run.yuyang.trotsky.model.conf.UserConf;
+import run.yuyang.trotsky.model.conf.*;
 import run.yuyang.trotsky.model.request.MDParam;
 
 import javax.enterprise.context.ApplicationScoped;
@@ -40,6 +37,8 @@ public class ConfService {
 
     private CountConf countConf;
 
+    private Map<String, DirConf> noteDirs;
+
     private String workerPath;
 
     private String UUID;
@@ -58,6 +57,14 @@ public class ConfService {
                 noteConfs.put(conf.getName(), conf);
             }
 
+        });
+        array = vertx.fileSystem().readFileBlocking(path + "/.trotsky/dir.json").toJsonArray();
+        noteDirs = new HashMap<>();
+        array.forEach(obj -> {
+            if (obj instanceof JsonObject) {
+                DirConf conf = ((JsonObject) obj).mapTo(DirConf.class);
+                noteDirs.put(conf.getName(), conf);
+            }
         });
         object = vertx.fileSystem().readFileBlocking(path + "/.trotsky/count.json").toJsonObject();
         countConf = object.mapTo(CountConf.class);
@@ -80,28 +87,42 @@ public class ConfService {
         return noteConfs.get(name);
     }
 
-    public String getPath(String name) {
+    public boolean existDirConf(String name) {
+        return noteDirs.containsKey(name);
+    }
+
+    public DirConf getDirConf(String name) {
+        return noteDirs.get(name);
+    }
+
+    public String getNotePath(String name) {
         return noteConfs.get(name).getPath();
     }
 
+    public String getDirPath(String name) {
+        return noteDirs.get(name).getPath();
+    }
+
     public String getRelPath(MDParam param) {
-        return workerPath + "/" + noteConfs.get(param.getFather()).getPath() + "/" + param.getName();
+        return workerPath + "/" + noteDirs.get(param.getFather()).getPath() + "/" + param.getName();
     }
 
     public String getRelPath(String name) {
         return workerPath + noteConfs.get(name).getPath();
     }
 
-    public void addNoteConf(NoteConf noteConf) {
+    private void addNoteConf(NoteConf noteConf) {
         noteConfs.put(noteConf.getName(), noteConf);
+        countConf.addNote();
     }
 
-    public void saveNoteConf() {
+    private void saveNoteConf() {
         JsonArray array = new JsonArray();
         noteConfs.forEach((k, note) -> {
             array.add(JsonObject.mapFrom(note));
         });
         vertx.fileSystem().writeFileBlocking(workerPath + "/.trotsky/note.json", Buffer.buffer(array.toString() + "\n"));
+        vertx.fileSystem().writeFileBlocking(workerPath + "/.trotsky/count.json", Buffer.buffer(JsonObject.mapFrom(countConf).toString() + "\n"));
     }
 
     public void addNoteConfAndSave(NoteConf noteConf) {
@@ -109,8 +130,9 @@ public class ConfService {
         saveNoteConf();
     }
 
-    public void delNoteConf(String name) {
+    private void delNoteConf(String name) {
         noteConfs.remove(name);
+        countConf.delNote();
     }
 
     public void delNoteConfAndSave(String name) {

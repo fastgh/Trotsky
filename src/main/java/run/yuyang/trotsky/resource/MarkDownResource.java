@@ -48,8 +48,8 @@ public class MarkDownResource {
     @GET
     @Path("/{name}/async")
     public Uni<String> getTextAsync(@PathParam("name") String name) {
-        if (confService.existNoteConf(name) && fileService.existFile(confService.getPath(name))) {
-            return asyncFileService.getFileAsync(confService.getPath(name));
+        if (confService.existNoteConf(name) && fileService.existFile(confService.getNotePath(name))) {
+            return asyncFileService.getFileAsync(confService.getNotePath(name));
         }
         return null;
     }
@@ -57,8 +57,8 @@ public class MarkDownResource {
     @GET
     @Path("/{name}/sync")
     public String getTextSync(@PathParam("name") String name) {
-        if (confService.existNoteConf(name) && fileService.existFile(confService.getPath(name))) {
-            return fileService.getFileSync(confService.getPath(name));
+        if (confService.existNoteConf(name) && fileService.existFile(confService.getNotePath(name))) {
+            return fileService.getFileSync(confService.getNotePath(name));
         }
         return null;
     }
@@ -66,8 +66,8 @@ public class MarkDownResource {
 
     @POST
     public Response newFile(MDParam param) {
-        if (confService.existNoteConf(param.getFather())  && confService.getNoteConf(param.getFather()).getIsDir()) {
-            fileService.saveNewFile(confService.getRelPath(param), param.getText(), NoteConf.map(param, confService.getPath(param.getFather())));
+        if (confService.existDirConf(param.getFather())) {
+            fileService.saveNewFile(confService.getRelPath(param), param.getText(), NoteConf.map(param, confService.getNotePath(param.getFather()), confService.getCountConf().getNextNoteId(), confService.getDirConf(param.getFather()).getDepth() + 1));
             return ResUtils.success();
         } else {
             return ResUtils.failure();
@@ -78,7 +78,7 @@ public class MarkDownResource {
     @Path("/{name}")
     public Response delNotes(@PathParam("name") String name) {
         if (confService.existNoteConf(name)) {
-            fileService.delFile(confService.getPath(name),name);
+            fileService.delFile(confService.getNotePath(name), name);
             return ResUtils.success();
         } else {
             return ResUtils.failure("未找到该文件信息");
