@@ -46,6 +46,25 @@ public class ConfService {
     public void readConfFromFile(String path) {
         workerPath = path;
         JsonObject object = vertx.fileSystem().readFileBlocking(path + "/.trotsky/index.json").toJsonObject();
+//        indexConf = new IndexConf();
+//        indexConf.setTitle(object.getString("title", "title"));
+//        indexConf.setDescription(object.getString("description", "description"));
+//        List<Pair> links = new LinkedList<>();
+//        object.getJsonArray("links").forEach(obj -> {
+//            if (obj instanceof JsonObject) {
+//                Pair link = ((JsonObject) obj).mapTo(Pair.class);
+//                links.add(link);
+//            }
+//        });
+//        indexConf.setLinks(links);
+//        List<Pair> navs = new LinkedList<>();
+//        object.getJsonArray("navs").forEach(obj -> {
+//            if (obj instanceof JsonObject) {
+//                Pair link = ((JsonObject) obj).mapTo(Pair.class);
+//                navs.add(link);
+//            }
+//        });
+//        indexConf.setLinks(navs);
         indexConf = object.mapTo(IndexConf.class);
         object = vertx.fileSystem().readFileBlocking(path + "/.trotsky/user.json").toJsonObject();
         userConf = object.mapTo(UserConf.class);

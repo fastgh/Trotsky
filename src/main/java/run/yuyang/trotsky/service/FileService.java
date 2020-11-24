@@ -104,4 +104,8 @@ public class FileService {
         return vertx.fileSystem().readFileBlocking(confService.getWorkerPath() + "/" + file).toString();
     }
 
+    public String readFile(String file) {
+        return vertx.fileSystem().readFileBlocking(file).toString();
+    }
+
 }

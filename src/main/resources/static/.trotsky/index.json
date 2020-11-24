@@ -1,3 +1,28 @@
 {
-  "version": "beta"
+  "title": "Trotsky-Blog",
+  "description": "布尔什维克 & 第四国际精神领袖",
+  "links": [
+    {
+      "key": "GitHub",
+      "value": "https://github.com/CNYuYang/Tortsky"
+    },
+    {
+      "key": "About Me",
+      "value": "#about-me"
+    },
+    {
+      "key": "Notes",
+      "value": "notes.md"
+    }
+  ],
+  "navs": [
+    {
+      "key": "主页",
+      "value": "#/"
+    },
+    {
+      "key": "笔记",
+      "value": "#/notes"
+    }
+  ]
 }

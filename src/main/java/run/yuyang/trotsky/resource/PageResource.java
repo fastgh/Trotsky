@@ -29,5 +29,13 @@ public class PageResource {
         return notesTree;
     }
 
+    @GET
+    @Path("/cover")
+    @Produces(MediaType.TEXT_PLAIN)
+    public String randomCoverPage() {
+        String notesTree = pageService.updateCoverPage();
+        System.out.println(notesTree);
+        return notesTree;
+    }
 
 }

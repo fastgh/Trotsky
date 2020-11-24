@@ -16,6 +16,9 @@ public class PageService {
     @Inject
     ConfService confService;
 
+    @Inject
+    FileService fileService;
+
     /**
      * 更新Notes页面
      */
@@ -47,7 +50,7 @@ public class PageService {
 
 
     //markdown中的空格&#160;
-    public StringBuilder getTree(String name, int depth, Map<String, List<DirConf>> dirs, Map<String, List<NoteConf>> notes, boolean[] flag) {
+    private StringBuilder getTree(String name, int depth, Map<String, List<DirConf>> dirs, Map<String, List<NoteConf>> notes, boolean[] flag) {
         StringBuilder builder = new StringBuilder("");
         if (!dirs.containsKey(name)) {
             return builder;
@@ -99,7 +102,7 @@ public class PageService {
     }
 
 
-    public StringBuilder getNotes(int depth, List<NoteConf> list, boolean[] flag, boolean isFatherEnd) {
+    private StringBuilder getNotes(int depth, List<NoteConf> list, boolean[] flag, boolean isFatherEnd) {
         StringBuilder builder = new StringBuilder("");
         if (null == list || list.size() == 0) {
             return builder;
@@ -134,5 +137,15 @@ public class PageService {
         return builder;
     }
 
+    public String updateCoverPage() {
+        String template = fileService.readFile("template/_coverpage.md");
+        template = template.replace("{{description}}", confService.getIndexConf().getDescription());
+        StringBuilder builder = new StringBuilder();
+        confService.getIndexConf().getLinks().forEach(obj -> {
+            builder.append("[").append(obj.getKey()).append("]").append("(").append(obj.getValue()).append(") ");
+        });
+        template = template.replace("{{links}}", builder.toString());
+        return template;
+    }
 
 }
